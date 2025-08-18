@@ -1,0 +1,27 @@
+{
+  "name": "srishti-farm",
+  "version": "1.0.0",
+  "description": "Full-stack web application for Srishti - The Farm retreat",
+  "main": "index.js",
+  "scripts": {
+    "start": "node start.js",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "setup": "npm run install-all && cd server && cp .env.example .env",
+    "build": "npm run client:build",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "keywords": ["farm", "retreat", "booking", "fullstack", "react", "nodejs"],
+  "author": "Srishti The Farm",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
