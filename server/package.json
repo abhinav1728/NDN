@@ -1,32 +1,31 @@
 {
-  "name": "srishti-farm-server",
+  "name": "srishti-farm",
   "version": "1.0.0",
-  "description": "Backend API for Srishti Farm booking system",
-  "main": "index.js",
+  "description": "Fullstack app for Srishti Farm booking system (React frontend + Node/Express backend)",
+  "private": true,
+  "main": "server/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "seed": "node scripts/seed.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "client": "npm start --prefix client",
+    "client:build": "npm run build --prefix client",
+    "client:install": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm install --prefix client && npm run build --prefix client",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
+    "test": "echo \"No tests configured\" && exit 0"
   },
-  "keywords": ["api", "booking", "farm", "nodejs", "express"],
-  "author": "Srishti The Farm",
-  "license": "UNLICENSED",
   "dependencies": {
-    "express": "^4.18.2",
-    "sequelize": "^6.32.1",
-    "sqlite3": "^5.1.6",
-    "jsonwebtoken": "^9.0.1",
-    "bcryptjs": "^2.4.3",
-    "joi": "^17.9.2",
-    "nodemailer": "^6.9.3",
-    "helmet": "^7.0.0",
+    "axios": "^1.4.0",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
-    "morgan": "^1.10.0",
-    "express-rate-limit": "^6.8.1",
-    "dotenv": "^16.3.1"
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
