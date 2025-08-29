@@ -1,19 +1,21 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
-require('dotenv').config();
 
+// Initialize express app
+const app = express();
+const PORT = process.env.PORT || 5000;
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Import routes and models
 const { sequelize } = require('./models');
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const contactRoutes = require('./routes/contact');
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-const isProduction = process.env.NODE_ENV === 'production';
 
 // Security middleware
 app.use(helmet());
@@ -22,6 +24,7 @@ app.use(helmet());
 const corsOptions = {
   origin: isProduction 
     ? [
+        process.env.FRONTEND_URL,
         'https://srishti-farm.up.railway.app',
         'https://srishtifarm.com',
         'https://www.srishtifarm.com'
