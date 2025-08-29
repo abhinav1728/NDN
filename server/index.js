@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 
 const { sequelize } = require('./models');
@@ -12,17 +13,24 @@ const contactRoutes = require('./routes/contact');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const isProduction = process.env.NODE_ENV === 'production';
 
 // Security middleware
 app.use(helmet());
 
 // CORS configuration
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['http://localhost', 'https://yourdomain.com'] 
-    : ['http://localhost:3000', 'http://localhost:80'],
-  credentials: true
-}));
+const corsOptions = {
+  origin: isProduction 
+    ? [
+        'https://srishti-farm.up.railway.app',
+        'https://srishtifarm.com',
+        'https://www.srishtifarm.com'
+      ]
+    : ['http://localhost:3000'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -46,7 +54,17 @@ app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/contact', contactRoutes);
 
-// Health check endpoint for Docker
+// Serve static assets in production
+if (isProduction) {
+  // Set static folder
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+}
+
+// Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
     status: 'healthy', 
@@ -55,7 +73,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
+// Error handling middleware (must be last!)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ 

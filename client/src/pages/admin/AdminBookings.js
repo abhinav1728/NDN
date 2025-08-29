@@ -6,7 +6,6 @@ import {
   LogOut,
   Filter,
   Search,
-  Eye,
   Check,
   X,
   Clock,
@@ -19,7 +18,7 @@ import { bookingAPI } from '../../services/api';
 import toast from 'react-hot-toast';
 
 const AdminBookings = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
@@ -35,7 +34,7 @@ const AdminBookings = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, [pagination.page, statusFilter, accommodationFilter]);
+  }, [pagination.page, statusFilter, accommodationFilter, fetchBookings]);
 
   const fetchBookings = async () => {
     setLoading(true);

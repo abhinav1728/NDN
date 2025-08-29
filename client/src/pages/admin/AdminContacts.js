@@ -6,17 +6,15 @@ import {
   LogOut,
   Filter,
   Search,
-  Eye,
   Check,
-  MessageSquare,
-  User
+  MessageSquare
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { contactAPI } from '../../services/api';
 import toast from 'react-hot-toast';
 
 const AdminContacts = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
@@ -32,7 +30,7 @@ const AdminContacts = () => {
 
   useEffect(() => {
     fetchContacts();
-  }, [pagination.page, statusFilter, typeFilter]);
+  }, [pagination.page, statusFilter, typeFilter, fetchContacts]);
 
   const fetchContacts = async () => {
     setLoading(true);

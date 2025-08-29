@@ -5,12 +5,8 @@ import {
   Home, 
   Utensils, 
   Wifi, 
-  Car, 
-  Coffee,
   ArrowRight,
   Star,
-  Users,
-  Calendar,
   ChevronLeft,
   ChevronRight,
   X

@@ -1,0 +1,32 @@
+[build]
+  builder = "nixpacks"
+  buildCommand = "npm install && npm run build"
+
+[deploy]
+  startCommand = "npm start"
+  healthcheckPath = "/api/health"
+  healthcheckTimeout = 100
+  restartPolicyType = "on_failure"
+  restartPolicyMaxRetries = 10
+
+[build.environment]
+  NODE_ENV = "production"
+  NPM_CONFIG_PRODUCTION = "false"
+  NODE_VERBOSE = "false"
+
+[deploy.environment]
+  NODE_ENV = "production"
+  PORT = "3000"
+  NODE_OPTIONS = "--max_old_space_size=1024"
+
+# Configure the build cache
+[cache]
+  paths = ["node_modules", "client/node_modules"]
+
+# Configure health checks
+[healthcheck]
+  enabled = true
+  interval = 60
+  timeout = 30
+  retries = 3
+  start_period = 30

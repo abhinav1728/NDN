@@ -2,17 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Calendar, 
-  Users, 
   Mail, 
   Home, 
   LogOut,
-  TrendingUp,
   Clock,
-  CheckCircle,
-  AlertCircle,
   MessageSquare,
-  Eye,
-  Edit
+  Eye
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { bookingAPI, contactAPI } from '../../services/api';
