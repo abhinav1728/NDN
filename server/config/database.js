@@ -3,38 +3,47 @@ const path = require('path');
 
 let sequelize;
 
-if (process.env.NODE_ENV === 'production') {
-  // PostgreSQL configuration for production
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    protocol: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false,
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000,
-    }
-  });
+// Common configuration
+const commonConfig = {
+  logging: false,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  }
+};
+
+// Development configuration (SQLite)
+const developmentConfig = {
+  ...commonConfig,
+  dialect: 'sqlite',
+  storage: path.join(__dirname, '..', 'database.sqlite'),
+  logging: console.log
+};
+
+// Production configuration (PostgreSQL)
+const productionConfig = {
+  ...commonConfig,
+  dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: process.env.NODE_ENV === 'production' ? {
+      require: true,
+      rejectUnauthorized: false
+    } : false
+  }
+};
+
+// Determine which configuration to use
+if (process.env.DATABASE_URL) {
+  // Use PostgreSQL if DATABASE_URL is provided (Render provides this)
+  sequelize = new Sequelize(process.env.DATABASE_URL, productionConfig);
+} else if (process.env.NODE_ENV === 'production') {
+  throw new Error('DATABASE_URL is required in production environment');
 } else {
-  // SQLite configuration for development
-  sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.join(__dirname, '..', 'database.sqlite'),
-    logging: console.log,
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000,
-    }
-  });
+  // Use SQLite for development
+  sequelize = new Sequelize(developmentConfig);
 }
 
 // Test the connection

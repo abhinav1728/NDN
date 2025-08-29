@@ -15,6 +15,10 @@ services:
         value: 7d
       - key: FRONTEND_URL
         value: https://srishti-farm.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: srishti-farm-db
+          property: connectionString
     plan: free
 
   - type: web
@@ -35,5 +39,5 @@ services:
 databases:
   - name: srishti-farm-db
     databaseName: srishtifarm
-    user: srishtifarm_user
+    user: srishtifarm
     plan: free
