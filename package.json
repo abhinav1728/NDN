@@ -6,9 +6,12 @@
   "scripts": {
     "start": "node server/index.js",
     "server": "nodemon server/index.js",
-    "client": "cd client && npm start",
+    "client": "npm start --prefix client",
+    "client:build": "npm run build --prefix client",
+    "client:install": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "cd client && npm install && npm run build",
+    "build": "npm install && npm run client:build",
+    "render-postbuild": "npm install && npm run client:build",
     "heroku-postbuild": "npm run build",
     "test": "echo \"No tests configured\" && exit 0"
   },

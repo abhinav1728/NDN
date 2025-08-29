@@ -25,8 +25,8 @@
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.0"
   },
-  "homepage": "./",
-  "proxy": "http://localhost:5000",
+  "homepage": "/",
+  "proxy": "https://srishti-farm-backend.onrender.com",
   "scripts": {
     "start": "set HOST=0.0.0.0 && set DANGEROUSLY_DISABLE_HOST_CHECK=true && set HOSTNAME=0.0.0.0 && set PUBLIC_URL=0.0.0.0 && react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",

@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: srishti-farm-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: FRONTEND_URL
+        value: https://srishti-farm.onrender.com
+    plan: free
+
+  - type: web
+    name: srishti-farm-frontend
+    env: node
+    buildCommand: |
+      cd client && npm install && npm run build
+    staticPublishPath: ./client/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://srishti-farm-backend.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /
+        destination: /index.html
+    plan: free
+
+databases:
+  - name: srishti-farm-db
+    databaseName: srishtifarm
+    user: srishtifarm_user
+    plan: free
